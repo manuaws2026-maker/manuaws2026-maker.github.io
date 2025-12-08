@@ -19,7 +19,7 @@
             padding: 60px 20px;
             text-align: center;
         }
-        .logo { font-size: 80px; margin-bottom: 20px; }
+        .logo { width: 150px; height: auto; margin-bottom: 20px; }
         h1 {
             font-size: 3rem;
             margin-bottom: 10px;
@@ -33,17 +33,21 @@
             margin-bottom: 40px;
         }
         .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
             margin: 40px 0;
             text-align: left;
+            justify-content: center;
         }
         .feature {
             background: rgba(255,255,255,0.05);
-            padding: 25px;
+            padding: 20px;
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.1);
+            flex: 1;
+            min-width: 200px;
+            max-width: 220px;
         }
         .feature h3 { color: #60a5fa; margin-bottom: 10px; }
         .feature p { color: #94a3b8; font-size: 0.95rem; }
@@ -76,7 +80,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo">🧊</div>
+        <img src="logo.png" alt="IceCubes Logo" class="logo">
         <h1>IceCubes</h1>
         <p class="tagline">AI-powered meeting notes that help you focus on the conversation</p>
         
