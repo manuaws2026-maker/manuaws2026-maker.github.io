@@ -409,6 +409,52 @@
       display: block;
     }
 
+    .video-replay-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 10;
+    }
+
+    .video-replay-overlay.show {
+      display: flex;
+    }
+
+    .video-replay-btn {
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .video-replay-btn:hover {
+      background: white;
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .video-replay-btn:active {
+      transform: scale(0.95);
+    }
+
+    .video-replay-btn svg {
+      display: block;
+    }
+
     .transcript-line {
       display: flex;
       gap: 12px;
@@ -871,7 +917,7 @@
     <p class="preview-label">Your meeting → AI-enhanced notes</p>
     <div class="video-container-wrapper">
       <div class="video-container">
-        <video id="demoVideo" autoplay loop muted playsinline>
+        <video id="demoVideo" autoplay muted playsinline>
           <source src="meeting-demo.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
@@ -895,6 +941,13 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="13 5 22 12 13 19 13 5"/>
               <polygon points="2 5 11 12 2 19 2 5"/>
+            </svg>
+          </button>
+        </div>
+        <div class="video-replay-overlay" id="replayOverlay">
+          <button class="video-replay-btn" id="replayBtn" title="Play again">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"/>
             </svg>
           </button>
         </div>
@@ -1059,6 +1112,8 @@
     const forwardBtn = document.getElementById('forwardBtn');
     const playIcon = document.getElementById('playIcon');
     const pauseIcon = document.getElementById('pauseIcon');
+    const replayOverlay = document.getElementById('replayOverlay');
+    const replayBtn = document.getElementById('replayBtn');
 
     // Play/Pause toggle
     playPauseBtn.addEventListener('click', () => {
@@ -1066,6 +1121,7 @@
         video.play();
         playIcon.style.display = 'none';
         pauseIcon.style.display = 'block';
+        replayOverlay.classList.remove('show');
       } else {
         video.pause();
         playIcon.style.display = 'block';
@@ -1083,15 +1139,35 @@
       video.currentTime = Math.min(video.duration, video.currentTime + 10);
     });
 
-    // Update play/pause icon based on video state
-    video.addEventListener('play', () => {
+    // Replay button - restart from beginning
+    replayBtn.addEventListener('click', () => {
+      video.currentTime = 0;
+      video.play();
+      replayOverlay.classList.remove('show');
       playIcon.style.display = 'none';
       pauseIcon.style.display = 'block';
     });
 
-    video.addEventListener('pause', () => {
+    // Show replay overlay when video ends
+    video.addEventListener('ended', () => {
+      replayOverlay.classList.add('show');
       playIcon.style.display = 'block';
       pauseIcon.style.display = 'none';
+    });
+
+    // Update play/pause icon based on video state
+    video.addEventListener('play', () => {
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'block';
+      replayOverlay.classList.remove('show');
+    });
+
+    video.addEventListener('pause', () => {
+      // Only update icon if video hasn't ended
+      if (!video.ended) {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+      }
     });
   </script>
 </body>
