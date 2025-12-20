@@ -370,6 +370,7 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
+      z-index: 20;
     }
 
     .video-container:hover .video-progress-container {
@@ -379,19 +380,25 @@
 
     .video-progress-bar {
       width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 2px;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 3px;
       cursor: pointer;
       position: relative;
+      transition: height 0.2s ease;
+    }
+
+    .video-progress-bar:hover {
+      height: 8px;
     }
 
     .video-progress-filled {
       height: 100%;
-      background: white;
-      border-radius: 2px;
+      background: #0ea5e9;
+      border-radius: 3px;
       width: 0%;
       transition: width 0.1s linear;
+      position: relative;
     }
 
     .video-progress-handle {
@@ -399,17 +406,20 @@
       top: 50%;
       left: 0%;
       transform: translate(-50%, -50%);
-      width: 12px;
-      height: 12px;
-      background: white;
+      width: 16px;
+      height: 16px;
+      background: #0ea5e9;
+      border: 2px solid white;
       border-radius: 50%;
       opacity: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease;
       pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .video-progress-bar:hover .video-progress-handle {
       opacity: 1;
+      transform: translate(-50%, -50%) scale(1.2);
     }
 
     .video-controls {
@@ -1188,11 +1198,37 @@
     video.addEventListener('timeupdate', updateProgress);
 
     // Seek on progress bar click
+    let isDragging = false;
+
     progressBar.addEventListener('click', (e) => {
+      if (!isDragging) {
+        const rect = progressBar.getBoundingClientRect();
+        const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        video.currentTime = percent * video.duration;
+        updateProgress();
+      }
+    });
+
+    // Drag support for progress bar
+    progressBar.addEventListener('mousedown', (e) => {
+      isDragging = true;
       const rect = progressBar.getBoundingClientRect();
-      const percent = (e.clientX - rect.left) / rect.width;
+      const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       video.currentTime = percent * video.duration;
       updateProgress();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const rect = progressBar.getBoundingClientRect();
+        const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        video.currentTime = percent * video.duration;
+        updateProgress();
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
     });
 
     // Play/Pause toggle
