@@ -151,6 +151,15 @@
       box-sizing: border-box;
     }
 
+    img, video, iframe {
+      max-width: 100%;
+      height: auto;
+    }
+
+    svg {
+      max-width: 100%;
+    }
+
     :root {
       --primary: #0ea5e9;
       --primary-dark: #0284c7;
@@ -162,12 +171,19 @@
       --border: #e2e8f0;
     }
 
+    html {
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text);
       background: var(--bg);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
     }
 
     /* Header */
@@ -180,6 +196,9 @@
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
     }
 
     .header-inner {
@@ -189,6 +208,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .logo {
@@ -214,6 +237,13 @@
       height: 56px;
       border-radius: 12px;
       object-fit: contain;
+      max-width: 100%;
+      height: auto;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
     }
 
     nav {
@@ -258,6 +288,10 @@
       padding: 160px 24px 40px;
       text-align: center;
       background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+      width: 100%;
+      max-width: 100vw;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     .hero h1 {
@@ -331,6 +365,9 @@
       padding: 20px 24px 80px;
       max-width: 1400px;
       margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     .preview-label {
@@ -343,6 +380,9 @@
     .video-container-wrapper {
       display: flex;
       justify-content: center;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .video-container {
@@ -521,12 +561,16 @@
       gap: 12px;
       margin-bottom: 16px;
       font-size: 14px;
+      flex-wrap: wrap;
+      word-break: break-word;
     }
 
     .speaker {
       font-weight: 600;
       color: var(--primary);
       white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 0;
     }
 
     .speaker.them {
@@ -902,31 +946,275 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+      .header-inner {
+        padding: 12px 16px;
+        flex-wrap: nowrap;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .logo {
+        font-size: 20px;
+        gap: 8px;
+        flex-shrink: 1;
+        min-width: 0;
+      }
+
+      .logo span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+      }
+
+      .btn-download {
+        padding: 8px 12px;
+        font-size: 12px;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      .btn-download svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .hero {
+        padding: 140px 16px 32px;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+        padding: 0 8px;
+      }
+
+      .hero p {
+        font-size: 18px;
+        padding: 0 8px;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 16px;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .product-preview {
+        padding: 20px 16px 60px;
+      }
+
+      .preview-label {
+        font-size: 16px;
+        padding: 0 8px;
+      }
+
+      .video-container-wrapper {
+        padding: 0 16px;
+      }
+
       .video-container {
         max-width: 100%;
         border-radius: 12px;
       }
 
       .video-controls {
-        padding: 16px;
-        gap: 12px;
+        padding: 12px;
+        gap: 8px;
       }
 
       .video-btn {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
       }
 
       nav {
         display: none;
       }
 
-      .hero h1 {
-        font-size: 36px;
+      .trust {
+        padding: 40px 16px;
       }
 
       .trust-logos {
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .privacy-choice {
+        padding: 60px 16px;
+      }
+
+      .privacy-choice h2 {
+        font-size: 32px;
+        padding: 0 8px;
+      }
+
+      .privacy-subtitle {
+        font-size: 16px;
+        padding: 0 8px;
+      }
+
+      .privacy-option {
+        padding: 24px;
+      }
+
+      .privacy-option h3 {
+        font-size: 20px;
+      }
+
+      .how-it-works {
+        padding: 60px 16px;
+      }
+
+      .how-it-works h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+        padding: 0 8px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
         gap: 32px;
+      }
+
+      .features {
+        padding: 60px 16px;
+      }
+
+      .features h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+        padding: 0 8px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .testimonial {
+        padding: 60px 16px;
+      }
+
+      .testimonial blockquote {
+        font-size: 22px;
+        padding: 0 8px;
+      }
+
+      .footer {
+        padding: 40px 16px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+
+      .transcript-line {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .speaker {
+        white-space: normal;
+      }
+
+      .cta {
+        padding: 60px 16px;
+      }
+
+      .cta h2 {
+        font-size: 32px;
+        padding: 0 8px;
+      }
+
+      .cta p {
+        font-size: 16px;
+        padding: 0 8px;
+      }
+
+      .footer {
+        padding: 40px 16px;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .privacy-choice h2 {
+        font-size: 28px;
+      }
+
+      .how-it-works h2,
+      .features h2 {
+        font-size: 28px;
+      }
+
+      .testimonial blockquote {
+        font-size: 20px;
+      }
+
+      .cta h2 {
+        font-size: 28px;
+      }
+
+      .cta p {
+        font-size: 15px;
+      }
+
+      .header-inner {
+        padding: 10px 12px;
+      }
+
+      .logo {
+        font-size: 18px;
+        gap: 6px;
+      }
+
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .btn-download {
+        padding: 8px;
+        font-size: 0;
+        min-width: 36px;
+        justify-content: center;
+      }
+
+      .btn-download svg {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+      }
+
+      .btn-download-text {
+        display: none;
       }
     }
   </style>
@@ -950,7 +1238,7 @@
           <polyline points="7 10 12 15 17 10"/>
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
-        Download
+        <span class="btn-download-text">Download</span>
       </a>
     </div>
   </header>
